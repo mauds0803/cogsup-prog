@@ -1,9 +1,25 @@
 import random
 import expyriment as xpy
+import variables
 
 # Experiment initialization
-e = xpy.design.Experiment(name="Ternus experiment", background_colour=(0, 0, 0), foreground_colour=(255, 255, 255))
-e.data_variable_names = ["condition", "trial", "isi_ms", "frame_ms", "response", "group_response", "key", "rt_ms"]
+e = xpy.design.Experiment(
+    name=variables.EXPERIMENT_NAME , 
+    background_colour=variables.BACKGROUND, 
+    foreground_colour=variables.FOREGROUND
+    )
+
+e.data_variable_names = [
+    "condition", 
+    "trial", 
+    "isi_ms", 
+    "frame_ms", 
+    "response", 
+    "group_response", 
+    "key", 
+    "rt_ms"]
+
+
 xpy.control.initialize(e)
 
 # DOTS stimuli
