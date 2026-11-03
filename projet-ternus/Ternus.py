@@ -23,7 +23,6 @@ e.data_variable_names = [
 xpy.control.initialize(e)
 
 # DOTS stimuli
-list1 = []
 
 frame_a = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
 for x in variables.FRAME_A_X:
@@ -77,24 +76,25 @@ for kind, x in variables.FRAME_D_SHAPES:
 
 
 
-# Fixation cross and text screens
-
+# Fixation cross
 def make_fixation():
     return xpy.stimuli.FixCross(size=variables.CROSS_SIZE,
                                 line_width=variables.CROSS_WIDTH,
                                 colour=variables.FOREGROUND)
 
-screen5 = xpy.stimuli.BlankScreen(colour=(0, 0, 0))
-thing1.plot(screen5)
-screen6 = xpy.stimuli.BlankScreen(colour=(0, 0, 0))
 
-# Fixation on stimulus and text screens
-thing1.plot(screen1)
-thing1.plot(screen2)
-thing1.plot(screen3)
-thing1.plot(screen4)
-thing1.plot(text1)
-thing1.plot(text2)
+# Fixation cross alone (gap between images) and blank screen (inter-trial)
+fixation_screen = xpy.stimuli.BlankScreen(colour=variables.BACKGROUND)
+make_fixation().plot(fixation_screen)
+blank_screen = xpy.stimuli.BlankScreen(colour=variables.BACKGROUND)
+
+
+# Fixation on stimulus screen
+make_fixation().plot(frame_a)
+make_fixation().plot(frame_b)
+make_fixation().plot(frame_c)
+make_fixation().plot(frame_d)
+
 
 
 
