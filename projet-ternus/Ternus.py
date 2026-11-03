@@ -22,13 +22,15 @@ e.data_variable_names = [
 
 xpy.control.initialize(e)
 
+#Design of the experiement
+
 # DOTS stimuli
 
 frame_a = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
 for x in variables.FRAME_A_X:
     xpy.stimuli.Circle(
         radius=variables.DOT_RADIUS,
-        position=(x, 0),
+        position=(x, ITEM_Y),
         colour=variables.FOREGROUND,
     ).plot(frame_a)
 
@@ -36,7 +38,7 @@ frame_b = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGR
 for x in variables.FRAME_B_X:
     xpy.stimuli.Circle(
         radius=variables.DOT_RADIUS,
-        position=(x, 0),
+        position=(x, ITEM_Y),
         colour=variables.FOREGROUND,
     ).plot(frame_b)
 
@@ -48,19 +50,19 @@ def make_shape(kind, x):
     if kind == "circle":
         return xpy.stimuli.Circle(
             radius=variables.DOT_RADIUS,
-            position=(x, 0),
+            position=(x, ITEM_Y),
             colour=variables.FOREGROUND,
         )
     if kind == "triangle":
         return xpy.stimuli.Shape(
             vertex_list=xpy.misc.geometry.vertices_regular_polygon(3, 54),
-            position=(x, 0),
+            position=(x, ITEM_Y),
             colour=variables.FOREGROUND,
         )
     if kind == "square":
         return xpy.stimuli.Rectangle(
             size=(35, 35),
-            position=(x, 0),
+            position=(x, ITEM_Y),
             colour=variables.FOREGROUND,
         )
     raise ValueError(f"Unknown shape kind: {kind}")
@@ -72,7 +74,6 @@ for kind, x in variables.FRAME_C_SHAPES:
 frame_d = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
 for kind, x in variables.FRAME_D_SHAPES:
     make_shape(kind, x).plot(frame_d)
-
 
 
 
@@ -108,7 +109,9 @@ for stimulus in (frame_a, frame_b, frame_c, frame_d, fixation_screen,
     stimulus.preload()
 
 
-    
+
+
+
 # DOTS block and trial construction
 b1 = xpy.design.Block(name="DOTS")
 b1.set_factor("condition", "DOTS")
