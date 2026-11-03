@@ -157,56 +157,28 @@ def run_trial(condition, isi_ms):
     return response, group_response, key, rt
  
 
-# Experiment start
-e.add_block(b1)
-e.add_block(b2)
+
+for condition in variables.CONDITIONS:
+    e.add_block(make_block(condition))
+ 
 xpy.control.start(skip_ready_screen=True)
-
-# Counterbalancing
-if e.subject % 2 == 0:
-    e.blocks.reverse()
-
-# Instructions
-text1.present()
-e.keyboard.wait(keys=[xpy.misc.constants.K_SPACE])
-
-# Trial presentation
-for b in e.blocks:
-    for t in b.trials:
-        v = t.get_factor("isi_ms")
-        t.stimuli[2].present()
-        e.clock.wait(200)
-
-        for i in range(3):
-            t.stimuli[0].present()
-            e.clock.wait(250)
-            if v > 0:
-                t.stimuli[4].present()
-                e.clock.wait(v)
-
-            t.stimuli[1].present()
-            e.clock.wait(250)
-            if v > 0:
-                t.stimuli[4].present()
-                e.clock.wait(v)
-
-        # Response collection
-        t.stimuli[3].present()
-        k, r = e.keyboard.wait(keys=[xpy.misc.constants.K_LEFT, xpy.misc.constants.K_RIGHT])
-
-        if k == xpy.misc.constants.K_LEFT:
-            a = "element"
-            g = 0
-        else:
-            a = "group"
-            g = 1
-
-        # Intertrial interval
-        t.stimuli[5].present()
-        e.clock.wait(500)
-        # Data saving
-        e.data.add([b.get_factor("condition"), t.id, v, 250, a, g, k, r])
+ 
+# Counterbalancing: odd participant -> DOTS first, even -> SHAPES first
+e.permute_blocks(xpy.design.permute.P_BALANCED_LATIN_SQUARE)
+#check_design(e.blocks)
+ 
+instructions_screen.present()
+e.keyboard.wait(keys=[variables.START_KEY])
+ 
+for block in e.blocks:
+    condition = block.get_factor("condition")
+    for trial in block.trials:
+        isi_ms = trial.get_factor("isi_ms")
+        response, group_response, key, rt = run_trial(condition, isi_ms)
+        e.data.add([condition, trial.id, isi_ms, variables.FRAME_MS,
+                             response, group_response, key, rt])
         e.data.save()
 
+ 
 # Experiment end
 xpy.control.end()
