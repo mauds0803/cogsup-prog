@@ -95,7 +95,11 @@ make_fixation().plot(frame_b)
 make_fixation().plot(frame_c)
 make_fixation().plot(frame_d)
 
-
+#Instruction and response screens 
+instructions_screen = xpy.stimuli.TextScreen(
+    heading=variables.INSTRUCTIONS_HEADING, text=variables.INSTRUCTIONS_TEXT)
+response_screen = xpy.stimuli.TextScreen(
+    heading=variables.RESPONSE_HEADING, text=variables.RESPONSE_TEXT)
 
 
 # Preloading
