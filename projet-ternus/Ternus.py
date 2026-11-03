@@ -20,7 +20,12 @@ e.data_variable_names = [
     "rt_ms"]
 
 
+
+if variables.DEVELOP_MODE:
+    xpy.control.set_develop_mode()
 xpy.control.initialize(e)
+
+#xpy.control.initialize(e)
 
 #Design of the experiement
 
@@ -128,23 +133,29 @@ def make_block(condition):
 
 
 
-# Stimuli for DOTS trials
-for t in b1.trials:
-    t.add_stimulus(screen1)
-    t.add_stimulus(screen2)
-    t.add_stimulus(screen5)
-    t.add_stimulus(text2)
-    t.add_stimulus(screen5)
-    t.add_stimulus(screen6)
-
-# Stimuli for SHAPES trials
-for t in b2.trials:
-    t.add_stimulus(screen3)
-    t.add_stimulus(screen4)
-    t.add_stimulus(screen5)
-    t.add_stimulus(text2)
-    t.add_stimulus(screen5)
-    t.add_stimulus(screen6)
+ #Creation of a function that shows one Ternus sequence; return (response, group_response, key, rt).
+def run_trial(condition, isi_ms):
+    first_frame, second_frame = condition_frames[condition]
+ 
+    fixation_screen.present()
+    e.clock.wait(variables.FIXATION_MS)
+ 
+    for _ in range(variables.REPETITIONS):
+        for frame in (first_frame, second_frame):
+            frame.present()
+            e.clock.wait(variables.FRAME_MS)
+            if isi_ms > 0:  # ISI 0: the next image replaces this one directly
+                fixation_screen.present()
+                e.clock.wait(isi_ms)
+ 
+    response_screen.present()
+    key, rt = e.keyboard.wait(keys=list(variables.RESPONSE_CODING))
+    response, group_response = variables.RESPONSE_CODING[key]
+ 
+    blank_screen.present()
+    e.clock.wait(variables.INTERTRIAL_MS)
+    return response, group_response, key, rt
+ 
 
 # Experiment start
 e.add_block(b1)

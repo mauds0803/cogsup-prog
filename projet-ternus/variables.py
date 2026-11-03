@@ -1,7 +1,9 @@
+from expyriment.misc import constants
+
 EXPERIMENT_NAME = "Ternus self-test"
 
 BACKGROUND = (0, 0, 0)
-FOREGROUND = (2552, 255, 255)
+FOREGROUND = (255, 255, 255)
 
 ITEM_Y = -50
 CANVAS_SIZE = (600, 300)
@@ -28,4 +30,18 @@ RESPONSE_TEXT = "LEFT = element motion\nRIGHT = group motion"
 CONDITIONS = ("DOTS", "SHAPES")
 
 ISI_VALUES_MS = (0, 50, 500, 1000)
-TRIALS_PER_ISI = 5
+TRIALS_PER_ISI = 1
+DEVELOP_MODE = False
+
+FRAME_MS = 250
+FIXATION_MS = 200
+INTERTRIAL_MS = 500
+REPETITIONS = 3
+
+
+RESPONSE_CODING = {
+    constants.K_LEFT: ("element", 0),
+    constants.K_RIGHT: ("group", 1),
+}
+START_KEY = constants.K_SPACE
+ 
