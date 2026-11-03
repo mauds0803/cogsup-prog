@@ -12,3 +12,7 @@ FRAME_C_SHAPES = [("circle", -120), ("triangle", -40), ("square", 40)]
 #FRAME_D_X = (-40, 40, 120)
 FRAME_D_SHAPES = [("triangle", -40), ("square", 40), ("circle", 120), ]
 FRAME_MS = 250
+
+CROSS_SIZE = (20, 20)
+CROSS_WIDTH = 4
+

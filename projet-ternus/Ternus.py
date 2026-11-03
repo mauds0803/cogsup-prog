@@ -64,6 +64,7 @@ def make_shape(kind, x):
             position=(x, 0),
             colour=variables.FOREGROUND,
         )
+    raise ValueError(f"Unknown shape kind: {kind}")
 
 frame_c = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
 for kind, x in variables.FRAME_C_SHAPES:
@@ -73,12 +74,18 @@ frame_d = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGR
 for kind, x in variables.FRAME_D_SHAPES:
     make_shape(kind, x).plot(frame_d)
 
+
+
+
 # Fixation cross and text screens
-thing1 = xpy.stimuli.FixCross(size=(20, 20), line_width=4, colour=(255, 255, 255))
+
+def make_fixation():
+    return xpy.stimuli.FixCross(size=variables.CROSS_SIZE,
+                                line_width=variables.CROSS_WIDTH,
+                                colour=variables.FOREGROUND)
+
 screen5 = xpy.stimuli.BlankScreen(colour=(0, 0, 0))
 thing1.plot(screen5)
-text1 = xpy.stimuli.TextScreen(heading="Ternus experiment", text="Keep your eyes on the central cross.\n\nLEFT = element motion\nRIGHT = group motion\n\nPress SPACE to start.")
-text2 = xpy.stimuli.TextScreen(heading="What did you see?", text="LEFT = element motion\nRIGHT = group motion")
 screen6 = xpy.stimuli.BlankScreen(colour=(0, 0, 0))
 
 # Fixation on stimulus and text screens
@@ -88,6 +95,8 @@ thing1.plot(screen3)
 thing1.plot(screen4)
 thing1.plot(text1)
 thing1.plot(text2)
+
+
 
 # Preloading
 screen1.preload()
