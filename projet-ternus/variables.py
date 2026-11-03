@@ -25,3 +25,7 @@ INSTRUCTIONS_TEXT = (
 RESPONSE_HEADING = "What did you see?"
 RESPONSE_TEXT = "LEFT = element motion\nRIGHT = group motion"
 
+CONDITIONS = ("DOTS", "SHAPES")
+
+ISI_VALUES_MS = (0, 50, 500, 1000)
+TRIALS_PER_ISI = 5

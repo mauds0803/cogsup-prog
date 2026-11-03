@@ -30,7 +30,7 @@ frame_a = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGR
 for x in variables.FRAME_A_X:
     xpy.stimuli.Circle(
         radius=variables.DOT_RADIUS,
-        position=(x, ITEM_Y),
+        position=(x, variables.ITEM_Y),
         colour=variables.FOREGROUND,
     ).plot(frame_a)
 
@@ -38,7 +38,7 @@ frame_b = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGR
 for x in variables.FRAME_B_X:
     xpy.stimuli.Circle(
         radius=variables.DOT_RADIUS,
-        position=(x, ITEM_Y),
+        position=(x, variables.ITEM_Y),
         colour=variables.FOREGROUND,
     ).plot(frame_b)
 
@@ -50,19 +50,19 @@ def make_shape(kind, x):
     if kind == "circle":
         return xpy.stimuli.Circle(
             radius=variables.DOT_RADIUS,
-            position=(x, ITEM_Y),
+            position=(x, variables.ITEM_Y),
             colour=variables.FOREGROUND,
         )
     if kind == "triangle":
         return xpy.stimuli.Shape(
             vertex_list=xpy.misc.geometry.vertices_regular_polygon(3, 54),
-            position=(x, ITEM_Y),
+            position=(x, variables.ITEM_Y),
             colour=variables.FOREGROUND,
         )
     if kind == "square":
         return xpy.stimuli.Rectangle(
             size=(35, 35),
-            position=(x, ITEM_Y),
+            position=(x, variables.ITEM_Y),
             colour=variables.FOREGROUND,
         )
     raise ValueError(f"Unknown shape kind: {kind}")
@@ -109,34 +109,24 @@ for stimulus in (frame_a, frame_b, frame_c, frame_d, fixation_screen,
     stimulus.preload()
 
 
+condition_frames = {
+    "DOTS": (frame_a, frame_b),
+    "SHAPES": (frame_c, frame_d),
+}
+
+#Function that allows to create a block with a number of trial that can be easily changed and in a randomized way
+def make_block(condition):
+    
+    block = xpy.design.Block(name=condition)
+    block.set_factor("condition", condition)
+    for isi_ms in variables.ISI_VALUES_MS:
+        trial = xpy.design.Trial()
+        trial.set_factor("isi_ms", isi_ms)
+        block.add_trial(trial, copies=variables.TRIALS_PER_ISI)
+    block.shuffle_trials()
+    return block
 
 
-
-# DOTS block and trial construction
-b1 = xpy.design.Block(name="DOTS")
-b1.set_factor("condition", "DOTS")
-for v in [0, 0, 0, 0, 0, 50, 50, 50, 50, 50, 500, 500, 500, 500, 500, 1000, 1000, 1000, 1000, 1000]:
-    t = xpy.design.Trial()
-    t.set_factor("isi_ms", v)
-    b1.add_trial(t)
-
-# Randomization of DOTS trials
-for i in range(len(b1.trials) - 1, 0, -1):
-    j = random.randint(0, i)
-    b1.trials[i], b1.trials[j] = b1.trials[j], b1.trials[i]
-
-# SHAPES block and trial construction
-b2 = xpy.design.Block(name="SHAPES")
-b2.set_factor("condition", "SHAPES")
-for v in [0, 0, 0, 0, 0, 50, 50, 50, 50, 50, 500, 500, 500, 500, 500, 1000, 1000, 1000, 1000, 1000]:
-    t = xpy.design.Trial()
-    t.set_factor("isi_ms", v)
-    b2.add_trial(t)
-
-# Randomization of SHAPES trials
-for i in range(len(b2.trials) - 1, 0, -1):
-    j = random.randint(0, i)
-    b2.trials[i], b2.trials[j] = b2.trials[j], b2.trials[i]
 
 # Stimuli for DOTS trials
 for t in b1.trials:
