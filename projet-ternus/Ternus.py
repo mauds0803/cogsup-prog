@@ -24,16 +24,24 @@ xpy.control.initialize(e)
 
 # DOTS stimuli
 list1 = []
-screen1 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Circle(radius=20, position=(-120, -50), colour=(255, 255, 255)).plot(screen1)
-xpy.stimuli.Circle(radius=20, position=(-40, -50), colour=(255, 255, 255)).plot(screen1)
-xpy.stimuli.Circle(radius=20, position=(40, -50), colour=(255, 255, 255)).plot(screen1)
 
-screen2 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Circle(radius=20, position=(-40, -50), colour=(255, 255, 255)).plot(screen2)
-xpy.stimuli.Circle(radius=20, position=(40, -50), colour=(255, 255, 255)).plot(screen2)
-xpy.stimuli.Circle(radius=20, position=(120, -50), colour=(255, 255, 255)).plot(screen2)
+frame_a = xpy.stimuli.Canvas(size=config.CANVAS_SIZE, colour=config.BACKGROUND)
+for x in config.FRAME_A_X:
+    xpy.stimuli.Circle(
+        radius=config.DOT_RADIUS,
+        position=(x, 0),
+        colour=config.FOREGROUND,
+    ).plot(frame_a)
 
+frame_b = xpy.stimuli.Canvas(size=config.CANVAS_SIZE, colour=config.BACKGROUND)
+for x in config.FRAME_B_X:
+    xpy.stimuli.Circle(
+        radius=config.DOT_RADIUS,
+        position=(x, 0),
+        colour=config.FOREGROUND,
+    ).plot(frame_b)
+
+    
 # SHAPES stimuli
 screen3 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
 xpy.stimuli.Circle(radius=20, position=(-120, -50), colour=(255, 255, 255)).plot(screen3)
