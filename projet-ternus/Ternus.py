@@ -103,15 +103,12 @@ response_screen = xpy.stimuli.TextScreen(
 
 
 # Preloading
-screen1.preload()
-screen2.preload()
-screen3.preload()
-screen4.preload()
-screen5.preload()
-text1.preload()
-text2.preload()
-screen6.preload()
+for stimulus in (frame_a, frame_b, frame_c, frame_d, fixation_screen,
+                 blank_screen, instructions_screen, response_screen):
+    stimulus.preload()
 
+
+    
 # DOTS block and trial construction
 b1 = xpy.design.Block(name="DOTS")
 b1.set_factor("condition", "DOTS")
