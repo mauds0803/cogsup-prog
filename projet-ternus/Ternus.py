@@ -25,33 +25,53 @@ xpy.control.initialize(e)
 # DOTS stimuli
 list1 = []
 
-frame_a = xpy.stimuli.Canvas(size=config.CANVAS_SIZE, colour=config.BACKGROUND)
-for x in config.FRAME_A_X:
+frame_a = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
+for x in variables.FRAME_A_X:
     xpy.stimuli.Circle(
-        radius=config.DOT_RADIUS,
+        radius=variables.DOT_RADIUS,
         position=(x, 0),
-        colour=config.FOREGROUND,
+        colour=variables.FOREGROUND,
     ).plot(frame_a)
 
-frame_b = xpy.stimuli.Canvas(size=config.CANVAS_SIZE, colour=config.BACKGROUND)
-for x in config.FRAME_B_X:
+frame_b = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
+for x in variables.FRAME_B_X:
     xpy.stimuli.Circle(
-        radius=config.DOT_RADIUS,
+        radius=variables.DOT_RADIUS,
         position=(x, 0),
-        colour=config.FOREGROUND,
+        colour=variables.FOREGROUND,
     ).plot(frame_b)
 
-    
-# SHAPES stimuli
-screen3 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Circle(radius=20, position=(-120, -50), colour=(255, 255, 255)).plot(screen3)
-xpy.stimuli.Shape(vertex_list=xpy.misc.geometry.vertices_regular_polygon(3, 54), position=(-40, -50), colour=(255, 255, 255)).plot(screen3)
-xpy.stimuli.Rectangle(size=(35, 35), position=(40, -50), colour=(255, 255, 255)).plot(screen3)
 
-screen4 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Shape(vertex_list=xpy.misc.geometry.vertices_regular_polygon(3, 54), position=(-40, -50), colour=(255, 255, 255)).plot(screen4)
-xpy.stimuli.Rectangle(size=(35, 35), position=(40, -50), colour=(255, 255, 255)).plot(screen4)
-xpy.stimuli.Circle(radius=20, position=(120, -50), colour=(255, 255, 255)).plot(screen4)
+# SHAPES stimuli
+#Creating a loop that will create the differents shape, so they are more easily called and created later.
+
+def make_shape(kind, x):
+    if kind == "circle":
+        return xpy.stimuli.Circle(
+            radius=variables.DOT_RADIUS,
+            position=(x, 0),
+            colour=variables.FOREGROUND,
+        )
+    if kind == "triangle":
+        return xpy.stimuli.Shape(
+            vertex_list=xpy.misc.geometry.vertices_regular_polygon(3, 54),
+            position=(x, 0),
+            colour=variables.FOREGROUND,
+        )
+    if kind == "square":
+        return xpy.stimuli.Rectangle(
+            size=(35, 35),
+            position=(x, 0),
+            colour=variables.FOREGROUND,
+        )
+
+frame_c = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
+for kind, x in variables.FRAME_C_SHAPES:
+    make_shape(kind, x).plot(frame_c)
+
+frame_d = xpy.stimuli.Canvas(size=variables.CANVAS_SIZE, colour=variables.BACKGROUND)
+for kind, x in variables.FRAME_D_SHAPES:
+    make_shape(kind, x).plot(frame_d)
 
 # Fixation cross and text screens
 thing1 = xpy.stimuli.FixCross(size=(20, 20), line_width=4, colour=(255, 255, 255))
